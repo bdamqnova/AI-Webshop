@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cooling & Fans - CyberBear</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    background: #121212;
+    color: #fff;
+}
+
+/* --- NAVBAR --- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 40px;
+    background: #1b1b1b;
+    border-bottom: 1px solid #2a2a2a;
+}
+.nav-left, .nav-right {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+.navbar a {
+    color: #dcdcdc;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 10px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+.navbar a:hover {
+    background: #1b73d8;
+    color: #fff;
+    transform: translateY(-2px);
+}
+.dropdown { position: relative; }
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 38px;
+    background: #1f1f1f;
+    border-radius: 6px;
+    min-width: 160px;
+    border: 1px solid #2c2c2c;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    z-index: 10;
+}
+.dropdown-content a { padding: 10px; display: block; }
+.dropdown:hover .dropdown-content { display: block; }
+
+.search-box input {
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid #3a3a3a;
+    background: #1b1b1b;
+    color: #fff;
+    width: 200px;
+}
+
+/* --- HEADER --- */
+h1 {
+    text-align: center;
+    margin: 60px 0 20px;
+    font-size: 42px;
+    letter-spacing: 2px;
+}
+p.intro {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 18px;
+    color: #aaa;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- PRODUCT GRID (MATCHES PC CASES LAYOUT) --- */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+    padding: 0 50px 50px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.product-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #1d1d1d;
+    border: 1px solid #2b2b2b;
+    border-radius: 10px;
+    text-align: center;
+    padding: 20px;
+    transition: 0.3s;
+    min-height: 420px;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    border-color: #1b73d8;
+    box-shadow: 0 0 15px #1b73d866;
+}
+
+.product-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.product-card h3 {
+    margin: 15px 10px 8px;
+    font-size: 18px;
+}
+
+.product-card p {
+    color: #ccc;
+    font-size: 14px;
+    padding: 0 10px;
+    line-height: 1.5;
+    flex-grow: 1;
+    margin-bottom: 15px;
+}
+
+.price {
+    color: #1b73d8;
+    font-weight: bold;
+    margin: 10px 0;
+    font-size: 18px;
+}
+
+.btn-buy {
+    background: #1b73d8;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: auto;
+    text-decoration: none;
+    display: inline-block;
+}
+.btn-buy:hover {
+    background: #00b7ff;
+    transform: translateY(-2px);
+}
+
+/* --- FOOTER --- */
+footer {
+    background: #1b1b1b;
+    padding: 40px 50px;
+    text-align: center;
+    border-top: 1px solid #2a2a2a;
+}
+footer p { color: #ccc; font-size: 14px; }
+footer a { color: #1b73d8; text-decoration: none; margin: 0 10px; }
+footer a:hover { color: #00b7ff; }
+
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-left">
+        <a href="{{ url_for('main') }}">Home</a>
+        <div class="dropdown">
+            <a href="#">Parts ▼</a>
+            <div class="dropdown-content">
+                <a href="{{ url_for('graphics_cards') }}">Graphics Cards</a>
+                <a href="{{ url_for('processors') }}">Processors</a>
+                <a href="{{ url_for('motherboards') }}">Motherboards</a>
+                <a href="{{ url_for('ram') }}">RAM</a>
+                <a href="{{ url_for('pc_cases') }}">Full PC Builds</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search..." onkeyup="searchProducts()">
+    </div>
+
+    <div class="nav-right">
+        <a href="{{ url_for('register') }}">Register</a>
+        <a href="{{ url_for('login') }}">Login</a>
+    </div>
+</nav>
+
+<!-- HEADER -->
+<h1>Cooling & Fans</h1>
+<p class="intro">
+    High-performance air and liquid coolers to keep your system cool and running smoothly.
+</p>
+
+<!-- PRODUCT GRID -->
+<div class="product-grid" id="productGrid">
+
+    <div class="product-card">
+        <img src="{{ url_for('static', filename='Noctua.png') }}" alt="Noctua NH-D15">
+        <h3>Noctua NH-D15</h3>
+        <p>Premium dual-tower air cooler with strong cooling and quiet performance.</p>
+        <div class="price">$99</div>
+        <a href="{{ url_for('add_to_cart', product_name='Noctua NH-D15', price=99) }}" class="btn-buy">Add to Cart</a>
+    </div>
+
+    <div class="product-card">
+        <img src="{{ url_for('static', filename='Corsair.fan.png') }}" alt="Corsair H150i RGB">
+        <h3>Corsair H150i RGB</h3>
+        <p>High-performance 360mm liquid cooler with bright RGB and excellent cooling.</p>
+        <div class="price">$169</div>
+        <a href="{{ url_for('add_to_cart', product_name='Corsair H150i RGB', price=169) }}" class="btn-buy">Add to Cart</a>
+    </div>
+
+    <div class="product-card">
+        <img src="{{ url_for('static', filename='nzxt.fan.png') }}" alt="NZXT Kraken X63">
+        <h3>NZXT Kraken X63</h3>
+        <p>Efficient 280mm AIO with an infinity-mirror design and low noise levels.</p>
+        <div class="price">$149</div>
+        <a href="{{ url_for('add_to_cart', product_name='NZXT Kraken X63', price=149) }}" class="btn-buy">Add to Cart</a>
+    </div>
+
+    <div class="product-card">
+        <img src="{{ url_for('static', filename='be_quitefan.png') }}" alt="Be Quiet Pure Wings 2">
+        <h3>Be Quiet! Pure Wings 2</h3>
+        <p>Quiet cooling fan delivering solid airflow with minimal noise.</p>
+        <div class="price">$19</div>
+        <a href="{{ url_for('add_to_cart', product_name='Be Quiet Pure Wings 2', price=19) }}" class="btn-buy">Add to Cart</a>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <p>&copy; 2025 CyberBear PC Parts |
+        <a href="#">Privacy Policy</a> |
+        <a href="#">Terms of Service</a>
+    </p>
+</footer>
+
+<script>
+function searchProducts() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const products = document.querySelectorAll('.product-card');
+    products.forEach(product => {
+        const name = product.querySelector('h3').textContent.toLowerCase();
+        product.style.display = name.includes(input) ? '' : 'none';
+    });
+}
+</script>
+
+</body>
+</html>

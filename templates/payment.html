@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout - CyberBear</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+body { font-family: "Inter", sans-serif; background:#121212; color:#fff; margin:0; }
+.container { max-width: 900px; margin: 50px auto; padding: 20px; }
+h1 { text-align: center; margin-bottom: 30px; }
+.cart-table { width: 100%; border-collapse: collapse; }
+.cart-table th, .cart-table td { padding: 12px; border-bottom: 1px solid #2a2a2a; text-align:left; }
+.cart-table th { color: #1b73d8; }
+.cart-total { text-align: right; font-size: 20px; font-weight:600; margin-top: 20px; }
+.checkout-btn { background:#1b73d8; color:#fff; border:none; padding:12px 25px; border-radius:6px; cursor:pointer; font-size:16px; margin-top:20px; width:100%; transition:0.3s; }
+.checkout-btn:hover { background:#00b7ff; }
+</style>
+<script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+
+<div class="container">
+  <h1>Checkout</h1>
+  <table class="cart-table" id="cartTable">
+    <thead>
+      <tr><th>Product</th><th>Price</th><th>Qty</th><th>Total</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <div class="cart-total">Total: $<span id="cartTotal">0</span></div>
+  <button class="checkout-btn" id="checkoutBtn">Pay $0 Now</button>
+</div>
+
+<script>
+const stripe = Stripe("{{ pub_key }}"); // Replace with your Stripe public key
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+function renderCart() {
+  const tbody = document.querySelector("#cartTable tbody");
+  tbody.innerHTML = "";
+  let total = 0;
+  cart.forEach(item => {
+    const tr = document.createElement("tr");
+    const itemTotal = item.price * item.quantity;
+    tr.innerHTML = `<td>${item.name}</td><td>$${item.price.toFixed(2)}</td><td>${item.quantity}</td><td>$${itemTotal.toFixed(2)}</td>`;
+    tbody.appendChild(tr);
+    total += itemTotal;
+  });
+  document.getElementById("cartTotal").textContent = total.toFixed(2);
+  document.getElementById("checkoutBtn").textContent = `Pay $${total.toFixed(2)} Now`;
+}
+
+renderCart();
+
+document.getElementById("checkoutBtn").addEventListener("click", () => {
+  if(cart.length === 0){ 
+      alert("Your cart is empty!"); 
+      return; 
+  }
+
+  fetch("/create_checkout_session", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ items: cart })
+  })
+  .then(res => res.json())
+  .then(data => {
+      if(data.url) window.location = data.url;
+      else alert("Error creating session");
+  })
+  .catch(err => console.error(err));
+});
+</script>
+</body>
+</html>

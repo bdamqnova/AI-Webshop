@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Site Name</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Bebas Neue', sans-serif;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      background-image: url('rgb_costum_pc.webp'); /* Replace with your image */
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 25px;
+  padding: 40px 50px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+
+
+
+    .site-name{ 
+    color: rgb(56, 125, 245);
+    text-align: center;
+    text-shadow: 3px 3px 3px rgb(129, 68, 220), 2px 2px 4px rgb(18, 11, 224), 2px 2px 5px rgb(238, 27, 27); 
+    display: flex;
+    font-family: 'Bebas Neue', sans-serif;
+
+    }
+
+    /* Overlay to lower opacity of background */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5); /* Adjust opacity here */
+      z-index: 0;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .site-name {
+      font-size:7rem;
+      margin-bottom: 10px;
+     text-shadow: 3px 3px 3px rgb(129, 68, 220), 2px 2px 4px rgb(18, 11, 224), 2px 2px 5px rgb(238, 27, 27);
+     animation: FadeIn 2s forwards;
+     letter-spacing: 5px;
+    }
+
+    @keyframes FadeIn{
+    from{opacity: 0; transform:translateY(-20px);}
+    to{opacity:1; transform:translateY(0);}
+    }
+
+    .symbol {
+      font-size: 4rem;
+      margin-bottom: 30px;
+    }
+
+    .home-button {
+      padding: 15px 60px;
+      font-size: 1rem;
+      color: white;
+      background: #8b00ff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 1.5rem;
+      margin: 0 0 90px 0 ;
+      transition:all 0.3s ease;
+    /* Fade-in effect */
+     opacity: 0;
+    animation: FadeIn 2s forwards;
+    animation-delay: 1s; /* fades in 1 second after the title */
+    }
+    
+    .home-button:hover {
+      background: #6a00cc;
+      transform: scale(0.9);
+    }
+  .home-button:active{
+   background: #4c007a;
+   transform: scale(1.05);
+}
+
+   
+  </style>
+</head>
+<body>
+  <div class="content">
+<div class="site-name">CyberBear</div>
+<a href="main page.html" class="home-button">Home</a>
+  </div>
+  <script>
+    const btn = document.querySelector('.home-button');
+    btn.addEventListener('mousedown', () => {
+      btn.style.transform = 'scale(0.95)';
+    });
+    btn.addEventListener('mouseup', () => {
+      btn.style.transform = 'scale(1)';
+      btn.classList.add('active');
+    });
+  </script>
+</body>
+</html>
